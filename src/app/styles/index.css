@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+@theme {
+  /* Light Theme - Encore Light Theme */
+
+  --color-primary: #159542;
+  --color-primary-foreground: #fff;
+
+  --color-secondary: #f5f5f5;
+  --color-secondary-foreground: #656565;
+  --color-destructive: #e91429;
+  --color-destructive-foreground: #fff;
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #818181;
+  --color-accent: #f5f5f5;
+  --color-accent-foreground: #656565;
+
+  --color-background: #fff;
+  --color-foreground: #000;
+  --color-card: #fff;
+  --color-card-foreground: #000;
+  --color-popover: #fff;
+  --color-popover-foreground: #000;
+  --color-border: #dedede;
+  --color-input: #f5f5f5;
+  --color-ring: #159542;
+
+  --color-success: #159542;
+  --color-success-foreground: #fff;
+  --color-warning: #bf6d00;
+  --color-warning-foreground: #fff;
+  --color-info: #0074e0;
+  --color-info-foreground: #fff;
+}
+
+.dark {
+  /* Dark Theme - Encore Dark Theme */
+  --color-primary: #1ed760;
+  --color-primary-foreground: #000;
+
+  --color-secondary: #1f1f1f;
+  --color-secondary-foreground: #b3b3b3;
+  --color-destructive: #ed2c3f;
+  --color-destructive-foreground: #fff;
+  --color-muted: #1f1f1f;
+  --color-muted-foreground: #b3b3b3;
+  --color-accent: #1f1f1f;
+  --color-accent-foreground: #b3b3b3;
+
+  --color-background: #121212;
+  --color-foreground: #fff;
+  --color-card: #1f1f1f;
+  --color-card-foreground: #fff;
+  --color-popover: #2a2a2a;
+  --color-popover-foreground: #fff;
+
+  --color-border: #292929;
+  --color-input: #1f1f1f;
+  --color-ring: #1ed760;
+
+  --color-success: #1ed760;
+  --color-success-foreground: #000;
+  --color-warning: #ffa42b;
+  --color-warning-foreground: #000;
+  --color-info: #4cb3ff;
+  --color-info-foreground: #000;
+}
