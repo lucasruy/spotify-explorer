@@ -1,51 +1,51 @@
 # Features Layer
 
-O **Features Layer** contém funcionalidades isoladas e específicas da aplicação. Cada feature representa uma capacidade completa do sistema.
+O **Features Layer** contém as principais interações da aplicação - as coisas que os usuários realmente querem fazer. Essas interações frequentemente envolvem entidades de negócio.
+
+## Princípio Fundamental
+
+**Nem tudo precisa ser uma feature.** Um bom indicador de que algo deve ser uma feature é o fato de ser **reutilizada em várias páginas**.
 
 ## Responsabilidades
 
-- **API**: Chamadas de API específicas da funcionalidade
-- **Hooks**: Custom hooks relacionados à funcionalidade
-- **Lib**: Utilitários exclusivos da feature
-- **Model**: Modelo de dados da funcionalidade: schemas, interfaces, stores e lógica de negócios
-- **UI**: Componentes de UI específicos da funcionalidade
+- **UI de Interação**: Interface para realizar a interação (ex: formulários)
+- **API Calls**: Chamadas de API necessárias para executar a ação
+- **Validação**: Validação e estado interno da feature
+- **Feature Flags**: Configurações específicas da funcionalidade
 
 ## Características de uma Feature
 
-- **Isolada**: Não depende de outras features
-- **Completa**: Implementa uma funcionalidade do início ao fim
-- **Reutilizável**: Pode ser usada em diferentes contextos
-- **Testável**: Fácil de testar de forma isolada
+- **Reutilizável**: Deve ser usada em múltiplas páginas
+- **Interação do Usuário**: Representa algo que o usuário quer fazer
+- **Isolada**: Não depende de outras features do mesmo nível
+- **Descobrível**: Um newcomer deve descobrir funcionalidades olhando pages e features
 
 ## Estrutura Típica de uma Feature
 
 ```bash
 feature-name/
-├── api/
-│   └── create-something.api.ts
-├── hooks/
-│   └── use-something.hook.ts
-├── lib/
-│   └── format-date.utils.ts
-├── model/
-│   └── feature.constants.ts
-│   └── feature.store.ts
-│   └── feature.types.ts
-├── ui/
-│   ├── feature-component.tsx
+├── ui/                 # Interface para realizar a interação
 │   └── feature-form.tsx
-└── index.ts                        # API pública da funcionalidade
+├── api/                # Chamadas de API necessárias
+│   └── create-something.api.ts
+├── model/              # Validação e estado interno
+│   ├── feature.schema.ts
+│   └── feature.store.ts
+├── config/             # Feature flags (opcional)
+│   └── feature-flags.ts
+└── index.ts            # API pública da feature
 ```
 
 ## Exemplos de Features
 
+- **Comments**: Sistema de comentários usado em múltiplos editores
 - **Authentication**: Login, logout, registro
-- **Profile Management**: Edição de perfil, upload de avatar
-- **Search**: Busca com filtros e ordenação
+- **Search**: Busca com filtros, usada em várias páginas
 
 ## Princípios
 
-- **Não deve** importar de `widgets`, `pages` ou `app`
-- **Pode** importar de `shared` e `entities`
-- **Pode** importar de outras `features` apenas através do `index.ts`
+- **Pode** importar de `entities` e `shared`
+- **Não deve** importar de `widgets`, `pages` ou `app`  
+- **Não pode** importar diretamente de outras features (apenas via API pública)
 - Deve expor uma API pública clara através do `index.ts`
+- Otimize para a experiência de um newcomer descobrir áreas importantes do código

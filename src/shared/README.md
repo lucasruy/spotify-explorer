@@ -1,28 +1,47 @@
 # Shared Layer
 
-O **Shared Layer** contém código reutilizável que pode ser usado por qualquer camada superior da arquitetura FSD.
+O **Shared Layer** forma a base da aplicação. É um lugar para criar conexões com o mundo externo (backends, bibliotecas de terceiros, ambiente) e definir bibliotecas próprias altamente contidas.
 
-## Responsabilidades
+## Características Especiais
 
-### API
+- **Não contém slices**, apenas segmentos diretamente
+- **Não há domínios de negócio** nesta camada
+- **Segmentos podem importar entre si livremente**
+- **Base para toda a aplicação**
 
-- **Client HTTP**: Configuração de clientes HTTP (axios, fetch)
-- **Interceptors**: Middleware para requisições e respostas
-- **Types**: Interfaces e tipos relacionados à API
-- **Error Handling**: Tratamento centralizado de erros de API
+## Segmentos Típicos
 
-### Lib
+### 📁 API
 
-- **Configurações**: Setup de bibliotecas externas (React Query, i18n, etc.)
-- **Adapters**: Adaptação de bibliotecas para o projeto
-- **Constants**: Constantes específicas de bibliotecas
+- **Cliente de API**: Configuração de clientes HTTP (axios, fetch)  
+- **Funções de endpoints**: Funções para fazer requisições a endpoints específicos do backend
 
-### Utils
+### 📁 UI
 
-- **Helpers**: Funções utilitárias gerais
-- **Formatters**: Formatação de dados (datas, números, strings)
-- **Validators**: Validadores reutilizáveis
-- **Constants**: Constantes globais da aplicação
+- **UI Kit da aplicação**: Componentes que não contêm lógica de negócio
+- **Componentes business-themed**: Ex: logo da empresa, layout de página
+
+### 📁 Lib
+
+- **Bibliotecas internas**: Cada biblioteca deve ter uma área de foco (dates, colors, text)
+- **Não é para helpers/utilities**: Evite que vire um "dump"
+- **Documentação obrigatória**: Cada lib deve ter README explicando seu foco
+
+### 📁 Config
+
+- **Variáveis de ambiente**
+- **Feature flags globais**
+- **Configurações globais da aplicação**
+
+### 📁 Routes
+
+- **Constantes de rotas**
+- **Padrões para matching de rotas**
+
+### 📁 i18n
+
+- **Setup de traduções**
+- **Strings de tradução globais**
 
 ## Estrutura Típica
 
@@ -30,21 +49,28 @@ O **Shared Layer** contém código reutilizável que pode ser usado por qualquer
 shared/
 ├── api/
 │   ├── client.ts          # Cliente HTTP configurado
-│   ├── types.ts           # Types de API
-│   └── interceptors.ts    # Interceptors
+│   └── endpoints.ts       # Funções para endpoints específicos
+├── ui/
+│   ├── button/            # Componente base
+│   ├── input/             # Componente base  
+│   └── layout/            # Layout base
 ├── lib/
-│   ├── react-query.ts     # Configuração React Query
-│   ├── i18n.ts            # Configuração internacionalização
-│   └── validation.ts      # Schemas de validação
-└── utils/
-    ├── formatters.ts      # Formatadores
-    ├── helpers.ts         # Funções auxiliares
-    └── constants.ts       # Constantes globais
+│   ├── dates/             # Biblioteca focada em datas
+│   │   ├── README.md      # Documentação da lib
+│   │   └── index.ts
+│   ├── validation/        # Schemas de validação
+│   └── react-query/       # Configuração React Query
+├── config/
+│   └── env.ts             # Variáveis de ambiente
+├── routes/
+│   └── constants.ts       # Constantes de rotas
+└── i18n/
+    └── setup.ts           # Setup de traduções
 ```
 
 ## Princípios
 
-- **Não deve** importar de `features`, `widgets`, `pages` ou `app`
-- **Pode** importar apenas de outras partes do `shared` ou `entities`
-- Deve ser agnóstico ao domínio da aplicação
-- Todo código deve ser reutilizável e sem efeitos colaterais
+- **Pode** importar apenas de outras partes do `shared`
+- **Nomes descrevem propósito**, não essência (❌ components, hooks, types)
+- **Agnóstico ao domínio** da aplicação
+- **Todo código deve ser reutilizável** e sem efeitos colaterais
