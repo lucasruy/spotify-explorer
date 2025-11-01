@@ -1,46 +1,49 @@
 # Widgets Layer
 
-O **Widgets Layer** contém componentes complexos que combinam múltiplas features ou entidades para criar funcionalidades compostas.
+O **Widgets Layer** é destinado a blocos grandes e autossuficientes de UI. São mais úteis quando reutilizados em múltiplas páginas ou quando uma página tem múltiplos blocos grandes e independentes.
 
 ## Responsabilidades
 
-- **Composite Components**: Componentes que agregam várias features
-- **Layout Components**: Estruturas complexas de layout
-- **Business Components**: Componentes com lógica de negócio específica
-- **Integration**: Integração entre diferentes features
+- **Blocos UI Autossuficientes**: Componentes complexos que funcionam independentemente
+- **Layout Components**: Estruturas complexas de layout (ex: page layouts)
+- **Reutilização Cross-Page**: Componentes usados em múltiplas páginas
+- **Blocos Router**: Para sistemas de roteamento aninhado, podem funcionar como blocos completos de router
 
-## Características
+## Quando Usar
 
-- **Composição**: Combina features e entities
-- **Complexidade**: Mais complexos que componentes simples
-- **Reutilização**: Podem ser reutilizados em diferentes páginas
-- **Alto Nível**: Abstraem complexidade de implementação
+- ✅ **Reutilizado** em múltiplas páginas
+- ✅ **Blocos independentes grandes** dentro de uma página
+- ✅ **Page layouts** para organização
+- ❌ **Conteúdo principal** de uma página que nunca é reutilizado
 
 ## Exemplos de Widgets
 
 - **Header**: Navegação + autenticação + busca
-- **Sidebar**: Sidebar + menu
-- **Comment Section**: Comentários + formulário + paginação
+- **Sidebar**: Menu lateral complexo
 - **Dashboard Summary**: Múltiplas métricas e gráficos
+- **Page Layout**: Layout base para páginas específicas
 
 ## Estrutura Típica
 
 ```text
 widgets/
 ├── header/
-│   ├── header.widget.tsx
+│   ├── ui/
+│   │   └── header.tsx
+│   ├── api/            # Data fetching (opcional)
+│   ├── model/          # Estado interno (opcional)
 │   └── index.ts
 ├── sidebar/
-│   ├── sidebar.widget.tsx
+│   ├── ui/
 │   └── index.ts
-└── dashboard-summary/
-    ├── dashboard-summary.widget.tsx
+└── page-layout/
+    ├── ui/
     └── index.ts
 ```
 
 ## Princípios
 
-- **Não deve** importar de `pages` ou `app`
 - **Pode** importar de `features`, `entities` e `shared`
+- **Não deve** importar de `pages` ou `app`
 - Deve ser agnóstico à rota/página onde será usado
-- Foca na composição, integração de funcionalidades e não implementa lógica complexa
+- Foca na composição e integração de funcionalidades

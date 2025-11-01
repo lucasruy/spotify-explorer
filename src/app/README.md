@@ -1,28 +1,32 @@
 # App Layer
 
-O **App Layer** é a camada mais alta da arquitetura FSD, responsável pela configuração global e inicialização da aplicação.
+O **App Layer** é a camada mais alta da arquitetura FSD, responsável por assuntos globais da aplicação, tanto técnicos quanto de negócio.
 
 ## Responsabilidades
 
 - **Providers**: Configuração de context providers globais (estado, tema, autenticação)
 - **Router**: Configuração das rotas principais da aplicação
-- **Layout Global**: Estrutura base que envolve todas as páginas
-- **Configurações**: Setup de bibliotecas globais e configurações de ambiente
+- **Store**: Configuração do store global
+- **Styles**: Estilos globais da aplicação
+- **Entrypoint**: Ponto de entrada da aplicação, específico do framework
 - **Error Boundaries**: Tratamento de erros a nível de aplicação
+- **Analytics**: Configurações de analytics e métricas globais
 
-## Estrutura Típica
+## Segmentos Típicos
 
 ```bash
 app/
-├── providers/          # Context providers globais
-├── router/             # Configuração de rotas
-├── layouts/            # Layouts base da aplicação
-└── config/             # Configurações globais
+├── routes/             # Configuração do roteador
+├── store/              # Configuração do store global
+├── styles/             # Estilos globais
+├── entrypoint/         # Ponto de entrada da aplicação
+└── providers/          # Context providers globais
 ```
 
-## Princípios
+## Características
 
-- **Não deve** importar de `features`, `widgets`, `pages` ou `entities`
-- **Pode** importar apenas de `shared`
-- Deve ser o ponto de entrada da aplicação
-- Mantém configurações que afetam toda a aplicação
+- **Não contém slices**, apenas segmentos diretamente
+- **Segmentos podem importar entre si livremente**
+- **Pode** importar de todas as camadas inferiores quando necessário
+- Combina todos os domínios de negócio da aplicação
+- Ponto de entrada e configuração global da aplicação
