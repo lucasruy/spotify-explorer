@@ -1,13 +1,15 @@
 import { RouterProvider } from 'react-router-dom';
 
 import { router } from '@/app/router';
-import { ReactQueryProvider } from '@/app/providers';
+import { ReactQueryProvider, I18nProvider } from '@/app/providers';
 
 function App() {
   return (
-    <ReactQueryProvider>
-      <RouterProvider router={router} />
-    </ReactQueryProvider>
+    <I18nProvider>
+      <ReactQueryProvider>
+        <RouterProvider router={router} />
+      </ReactQueryProvider>
+    </I18nProvider>
   );
 }
 
