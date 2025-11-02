@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import { type ThemeOptions } from '@/shared/ui';
@@ -5,15 +7,27 @@ import { type ThemeOptions } from '@/shared/ui';
 import { type ThemeProviderProps } from './theme.types';
 import { ThemeProviderContext } from './theme.context';
 
+const isClient = typeof window === 'undefined';
+
 export function ThemeProvider({
   children,
   defaultTheme = 'dark',
   storageKey = 'spotify-explorer-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<ThemeOptions>(
-    () => (localStorage.getItem(storageKey) as ThemeOptions) || defaultTheme
-  );
+  const [theme, setTheme] = useState<ThemeOptions>(() => {
+    if (isClient) {
+      return defaultTheme;
+    }
+
+    try {
+      const storedTheme = localStorage.getItem(storageKey) as ThemeOptions;      
+      return storedTheme || defaultTheme;
+    } catch (error) {
+      console.warn('Failed to load theme from localStorage:', error);
+      return defaultTheme;
+    }
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -35,9 +49,16 @@ export function ThemeProvider({
 
   const value = {
     theme,
-    setTheme: (theme: ThemeOptions) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
+    setTheme: (newTheme: ThemeOptions) => {
+      setTheme(newTheme);
+
+      if (!isClient) {
+        try {
+          localStorage.setItem(storageKey, newTheme);
+        } catch (error) {
+          console.warn('Failed to save theme to localStorage:', error);
+        }
+      }
     },
   };
 
