@@ -17,7 +17,10 @@ export const loginPageEnUS = {
     },
   },
   cta: {
-    primary: 'Connect with Spotify',
+    primary: {
+      connected: 'Access profile',
+      disconnected: 'Connect with Spotify',
+    },
     secondary: 'Review the integration guide',
   },
   sections: {

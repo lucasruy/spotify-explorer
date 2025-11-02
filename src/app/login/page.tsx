@@ -1,5 +1,8 @@
+import { getCurrentUser } from '@/features/user';
 import { LoginPage } from '@/page/login';
 
-export default function Login() {
-  return <LoginPage />;
+export default async function Login() {
+  const profile = await getCurrentUser();
+
+  return <LoginPage isLogged={Boolean(profile)} />;
 }

@@ -17,7 +17,10 @@ export const loginPagePtBR = {
     },
   },
   cta: {
-    primary: 'Conectar com Spotify',
+    primary: {
+      connected: 'Acessar perfil',
+      disconnected: 'Conectar com Spotify',
+    },
     secondary: 'Ver guia de integração',
   },
   sections: {
