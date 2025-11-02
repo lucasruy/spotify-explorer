@@ -19,7 +19,7 @@ export const homePagePtBR = {
   },
   cta: {
     primary: 'Começar agora',
-    secondary: 'Revisar o plano da Spotify API',
+    secondary: 'Veja os recursos disponíveis',
   },
   sections: {
     features: {

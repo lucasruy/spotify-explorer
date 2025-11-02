@@ -19,7 +19,7 @@ export const homePageEnUS = {
   },
   cta: {
     primary: 'Get started now',
-    secondary: 'Review the Spotify API plan',
+    secondary: 'See available resources.',
   },
   sections: {
     features: {

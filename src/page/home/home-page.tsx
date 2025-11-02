@@ -46,16 +46,10 @@ export const HomePage = () => {
 
               <div className="flex flex-wrap gap-3">
                 <Button asChild size="lg" className="px-8">
-                  <Link href="#features">{t('cta.primary')}</Link>
+                  <Link href="/login">{t('cta.primary')}</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="px-8">
-                  <Link
-                    href="https://developer.spotify.com/documentation/web-api/howtos/web-app-profile"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t('cta.secondary')}
-                  </Link>
+                  <Link href="#features">{t('cta.secondary')}</Link>
                 </Button>
               </div>
 
