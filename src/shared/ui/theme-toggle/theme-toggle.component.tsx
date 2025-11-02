@@ -1,5 +1,7 @@
+'use client';
+
 import { Button } from '@/shared/ui';
-import { useTheme } from '@/app/providers';
+import { useTheme } from '@/core/providers';
 
 import { getIcon } from './theme-toggle.helpers';
 

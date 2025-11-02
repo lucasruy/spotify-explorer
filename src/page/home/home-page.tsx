@@ -1,3 +1,5 @@
+'use client';
+
 import { useI18n } from '@/shared/i18n';
 import { LanguageSelector } from '@/shared/ui/language-selector';
 import { ThemeToggle } from '@/shared/ui';

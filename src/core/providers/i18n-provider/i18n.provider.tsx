@@ -1,7 +1,9 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import { initializeI18n } from '@/shared/i18n';
-import { registerPagesI18nResources } from '@/pages/register-i18n-resources';
+import { registerPagesI18nResources } from '@/page/register-i18n-resources';
 
 export const I18nProvider = ({ children }: React.PropsWithChildren) => {
   const [isInitialized, setIsInitialized] = useState(false);

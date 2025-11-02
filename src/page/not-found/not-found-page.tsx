@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 
 import { useI18n } from '@/shared/i18n';
 import { LanguageSelector } from '@/shared/ui/language-selector';
@@ -13,7 +15,7 @@ export const NotFoundPage = () => {
         <h1>{t('errorCode')}</h1>
         <h2>{t('title')}</h2>
         <p>{t('message')}</p>
-        <Link to="/">{t('backToHome')}</Link>
+        <Link href="/">{t('backToHome')}</Link>
       </div>
     </div>
   );

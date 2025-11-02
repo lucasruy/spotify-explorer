@@ -18,7 +18,7 @@ export const initializeI18n = async () => {
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-      debug: import.meta.env.DEV,
+      debug: process.env.NODE_ENV === 'development',
       fallbackLng: FALLBACK_LANGUAGE,
       supportedLngs: SUPPORTED_LANGUAGES,
 
