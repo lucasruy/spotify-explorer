@@ -1,0 +1,106 @@
+import { NextResponse } from 'next/server';
+
+import { mapArtist, type ApiArtistSearchResponse } from '@/entities/artist';
+import {
+  POPULAR_ARTISTS_DEFAULT_GENRE,
+  POPULAR_ARTISTS_DEFAULT_LIMIT,
+  POPULAR_ARTISTS_DEFAULT_MARKET,
+  type PopularArtistsResponse,
+} from '@/features/artist-listing/model';
+import { getValidAccessToken } from '@/features/auth/model';
+
+const SPOTIFY_SEARCH_ENDPOINT = 'https://api.spotify.com/v1/search';
+const MAX_LIMIT = 50;
+
+const parseNumberParam = (value: string | null, fallback: number) => {
+  if (!value) {
+    return fallback;
+  }
+
+  const parsed = Number(value);
+
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return fallback;
+  }
+
+  return parsed;
+};
+
+export async function GET(request: Request) {
+  const accessToken = await getValidAccessToken();
+
+  if (!accessToken) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const url = new URL(request.url);
+  const pageParam = parseNumberParam(
+    url.searchParams.get('page'),
+    1
+  );
+  const limitParam = parseNumberParam(
+    url.searchParams.get('limit'),
+    POPULAR_ARTISTS_DEFAULT_LIMIT
+  );
+  const limit = Math.min(limitParam, MAX_LIMIT);
+  const page = Math.max(pageParam, 1);
+  const genre = url.searchParams.get('genre')?.trim() || POPULAR_ARTISTS_DEFAULT_GENRE;
+  const market = url.searchParams.get('market')?.trim() || POPULAR_ARTISTS_DEFAULT_MARKET;
+  const offset = (page - 1) * limit;
+
+  const searchParams = new URLSearchParams({
+    type: 'artist',
+    q: `genre:${genre}`,
+    limit: String(limit),
+    offset: String(offset),
+  });
+
+  if (market) {
+    searchParams.set('market', market);
+  }
+
+  const response = await fetch(`${SPOTIFY_SEARCH_ENDPOINT}?${searchParams.toString()}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const details = await response.text();
+    return NextResponse.json(
+      { error: `Failed to fetch artists: ${details}` },
+      { status: response.status }
+    );
+  }
+
+  const payload = (await response.json()) as ApiArtistSearchResponse;
+  const apiArtists = payload.artists?.items ?? [];
+  const sortedArtists = [...apiArtists].sort(
+    (a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)
+  );
+  const items = sortedArtists.map(mapArtist);
+
+  const totalItems = payload.artists?.total ?? items.length;
+  const totalPages = totalItems > 0 ? Math.ceil(totalItems / limit) : 0;
+
+  const body: PopularArtistsResponse = {
+    items,
+    pagination: {
+      page,
+      limit,
+      totalItems,
+      totalPages,
+    },
+    filters: {
+      genre,
+      market,
+    },
+  };
+
+  return NextResponse.json(body, {
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
+}
