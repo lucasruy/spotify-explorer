@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import type { UserProfile } from '@/features/user';
 import { useI18n } from '@/shared/i18n';
-import { Button, LanguageSelector, ThemeToggle } from '@/shared/ui';
+import { Button } from '@/shared/ui';
 
 type ProfilePageProps = {
   profile: UserProfile;
