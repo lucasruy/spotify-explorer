@@ -5,6 +5,7 @@ import { loginPageLocales } from './login';
 import { notFoundLocales } from './not-found';
 import { profilePageLocales } from './profile';
 import { artistListingPageLocales } from './artist-listing';
+import { devShowcasePageLocales } from './dev-showcase';
 
 /**
  * Registra todos os recursos de tradução das páginas
@@ -16,4 +17,5 @@ export const registerPagesI18nResources = () => {
   registerI18nResources('profile-page', profilePageLocales);
   registerI18nResources('not-found-page', notFoundLocales);
   registerI18nResources('artist-listing-page', artistListingPageLocales);
+  registerI18nResources('dev-showcase-page', devShowcasePageLocales);
 };
