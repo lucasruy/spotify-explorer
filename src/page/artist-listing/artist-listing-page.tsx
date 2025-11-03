@@ -7,8 +7,16 @@ import { usePopularArtists } from '@/features/artist-listing';
 import { useI18n } from '@/shared/i18n';
 import { Button, Card, Pagination } from '@/shared/ui';
 
-import { getFollowersLabel, getGenresLabel } from './artist-listing-page.helpers';
-import { ArtistListingEmpty, ArtistListingError, ArtistListingLoading } from './artist-listing-page.feedback';
+import {
+  clampPage,
+  getFollowersLabel,
+  getGenresLabel,
+} from './artist-listing-page.helpers';
+import {
+  ArtistListingEmpty,
+  ArtistListingError,
+  ArtistListingLoading,
+} from './artist-listing-page.feedback';
 
 const DEFAULT_PAGE = 1;
 
@@ -22,11 +30,16 @@ export const ArtistListingPage = () => {
 
   const artists = data?.items ?? [];
   const totalPages = data?.pagination.totalPages ?? 0;
+  const totalItems = data?.pagination.totalItems ?? 0;
+  const currentPage = data?.pagination.page ?? clampPage(page, totalPages);
   const genre = data?.filters.genre;
 
   const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
-    headerRef?.current?.scrollIntoView({ behavior: "smooth", block: "nearest" })
+    headerRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
   };
 
   const renderContent = () => {
@@ -44,7 +57,7 @@ export const ArtistListingPage = () => {
 
     return (
       <>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {artists.map(artist => {
             const followers = getFollowersLabel(artist);
             const genresLabel = getGenresLabel(artist);
@@ -68,25 +81,27 @@ export const ArtistListingPage = () => {
                       width={96}
                     />
                   ) : (
-                    <div className="flex h-24 w-24 items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted text-lg font-semibold text-muted-foreground">
+                    <div className="border-border/60 bg-muted text-muted-foreground flex h-24 w-24 items-center justify-center rounded-2xl border border-dashed text-lg font-semibold">
                       {artist.name.charAt(0).toUpperCase()}
                     </div>
                   )
                 }
                 actions={
                   <Button asChild variant="secondary" size="sm">
-                    <Link href={artist.externalUrl} target="_blank" rel="noreferrer">
+                    <Link
+                      href={artist.externalUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       {t('card.spotifyCta')}
                     </Link>
                   </Button>
                 }
               >
-                <dl className="space-y-2 text-sm text-muted-foreground">
+                <dl className="text-muted-foreground space-y-2 text-sm">
                   <div className="flex justify-between">
                     <dt>{t('card.followers.label')}</dt>
-                    <dd className="text-foreground font-medium">
-                      {followers}
-                    </dd>
+                    <dd className="text-foreground font-medium">{followers}</dd>
                   </div>
                   {genresLabel ? (
                     <div className="flex justify-between">
@@ -102,15 +117,25 @@ export const ArtistListingPage = () => {
           })}
         </div>
 
-        {totalPages > 1 ? (
-          <div className="mt-10 flex justify-center">
+        <div className="mt-10 flex flex-col items-center gap-3">
+          {totalPages > 1 ? (
             <Pagination
-              page={page}
+              page={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </div>
-        ) : null}
+          ) : null}
+
+          {totalItems ? (
+            <p className="text-muted-foreground text-xs">
+              {t('pagination.summary', {
+                current: currentPage,
+                total: Math.max(totalPages, 1),
+                count: totalItems,
+              })}
+            </p>
+          ) : null}
+        </div>
       </>
     );
   };
@@ -118,25 +143,28 @@ export const ArtistListingPage = () => {
   return (
     <div className="bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-12 md:py-16">
-        <header ref={headerRef} className="mb-10 space-y-4 text-center md:space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+        <header
+          ref={headerRef}
+          className="mb-10 space-y-4 text-center md:space-y-6"
+        >
+          <p className="text-muted-foreground text-xs font-semibold tracking-[0.3em] uppercase">
             {t('hero.badge')}
           </p>
           <div className="space-y-3 text-balance">
-            <h1 className="text-3xl font-semibold text-foreground md:text-5xl">
+            <h1 className="text-foreground text-3xl font-semibold md:text-5xl">
               {t('hero.title')}
             </h1>
-            <p className="mx-auto max-w-2xl text-sm text-muted-foreground md:text-lg">
+            <p className="text-muted-foreground mx-auto max-w-2xl text-sm md:text-lg">
               {t('hero.description')}
             </p>
           </div>
           {genre ? (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t('hero.filtersNotice', { genre })}
             </p>
           ) : null}
           {isFetching ? (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t('states.updating')}
             </p>
           ) : null}
