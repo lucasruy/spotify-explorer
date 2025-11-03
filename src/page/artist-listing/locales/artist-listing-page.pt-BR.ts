@@ -6,6 +6,7 @@ export const artistListingPagePtBR = {
       'Explore os artistas mais reproduzidos e acompanhe o que está em alta diretamente da API oficial do Spotify.',
     filtersNotice:
       'Listagem baseada no gênero padrão "{{genre}}" fornecido pelo Spotify.',
+    activeFilters: 'Filtros ativos • Nome: {{artist}} • Gênero: {{genre}}',
   },
   states: {
     loading: 'Carregando artistas populares...',
@@ -29,6 +30,35 @@ export const artistListingPagePtBR = {
     },
     genres: {
       label: 'Gêneros',
+    },
+  },
+  filters: {
+    title: 'Refine os resultados',
+    description: 'Filtre rapidamente pelo nome do artista que deseja explorar.',
+    emptyValue: 'Nenhum',
+    artistName: {
+      label: 'Nome do artista',
+      placeholder: 'Digite o nome do artista',
+    },
+    genre: {
+      label: 'Gênero musical',
+      placeholder: 'Selecione um gênero',
+      options: {
+        pop: 'Pop',
+        rock: 'Rock',
+        'hip-hop': 'Hip Hop',
+        electronic: 'Eletrônico',
+        indie: 'Indie',
+        metal: 'Metal',
+        jazz: 'Jazz',
+        latin: 'Latino',
+        country: 'Country',
+        'k-pop': 'K-Pop',
+      },
+    },
+    actions: {
+      apply: 'Aplicar filtros',
+      clear: 'Limpar filtros',
     },
   },
 };

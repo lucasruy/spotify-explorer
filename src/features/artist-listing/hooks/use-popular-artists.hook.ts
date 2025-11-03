@@ -21,6 +21,7 @@ const normalizeParams = (
     limit: params.limit ?? fallback.limit,
     genre: params.genre ?? fallback.genre,
     market: params.market ?? fallback.market,
+    artistName: params.artistName?.trim() ?? fallback.artistName,
   };
 };
 

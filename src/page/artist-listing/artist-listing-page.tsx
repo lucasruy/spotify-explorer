@@ -1,9 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { usePopularArtists } from '@/features/artist-listing';
+import {
+  ArtistListingFilters,
+  POPULAR_ARTISTS_DEFAULT_GENRE,
+  artistListingFiltersDefaultValues,
+  getPopularArtistGenreOptions,
+  sanitizeArtistListingFilters,
+  type ArtistListingFiltersForm,
+  usePopularArtists,
+} from '@/features/artist-listing';
 import { useI18n } from '@/shared/i18n';
 import { Button, Card, Pagination, SpotifyIcon } from '@/shared/ui';
 
@@ -23,16 +31,39 @@ const DEFAULT_PAGE = 1;
 export const ArtistListingPage = () => {
   const { t } = useI18n('artist-listing-page');
   const [page, setPage] = useState(DEFAULT_PAGE);
+  const [filters, setFilters] = useState<ArtistListingFiltersForm>(
+    artistListingFiltersDefaultValues
+  );
   const headerRef = useRef<HTMLDivElement>(null);
+  const genreOptions = useMemo(() => {
+    const baseOptions = getPopularArtistGenreOptions();
+    return baseOptions.map(option => ({
+      ...option,
+      label:
+        t(`filters.genre.options.${option.value}` as const) ?? option.label,
+    }));
+  }, [t]);
 
   const { data, isLoading, isError, error, refetch, isFetching } =
-    usePopularArtists({ page });
+    usePopularArtists({
+      page,
+      artistName: filters.artistName,
+      genre: filters.genre,
+    });
 
   const artists = data?.items ?? [];
   const totalPages = data?.pagination.totalPages ?? 0;
   const totalItems = data?.pagination.totalItems ?? 0;
   const currentPage = data?.pagination.page ?? clampPage(page, totalPages);
   const genre = data?.filters.genre;
+  const appliedArtistFilter = data?.filters.artistName;
+  const hasCustomGenre = Boolean(
+    genre && genre !== POPULAR_ARTISTS_DEFAULT_GENRE
+  );
+  const displayedGenreLabel = genre
+    ? (t(`filters.genre.options.${genre}` as const) ?? genre)
+    : null;
+  const activeGenreLabel = displayedGenreLabel;
 
   const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
@@ -40,6 +71,23 @@ export const ArtistListingPage = () => {
       behavior: 'smooth',
       block: 'nearest',
     });
+  };
+
+  const handleFiltersSubmit = (values: ArtistListingFiltersForm) => {
+    const sanitized = sanitizeArtistListingFilters(values);
+
+    setFilters(previous => {
+      if (
+        previous.artistName === sanitized.artistName &&
+        previous.genre === sanitized.genre
+      ) {
+        return previous;
+      }
+
+      return sanitized;
+    });
+
+    setPage(DEFAULT_PAGE);
   };
 
   const renderContent = () => {
@@ -168,7 +216,19 @@ export const ArtistListingPage = () => {
           </div>
           {genre ? (
             <p className="text-muted-foreground text-xs">
-              {t('hero.filtersNotice', { genre })}
+              {t('hero.filtersNotice', {
+                genre: displayedGenreLabel,
+              })}
+            </p>
+          ) : null}
+          {appliedArtistFilter || hasCustomGenre ? (
+            <p className="text-muted-foreground text-xs">
+              {t('hero.activeFilters', {
+                artist: appliedArtistFilter || t('filters.emptyValue'),
+                genre: hasCustomGenre
+                  ? activeGenreLabel
+                  : t(`filters.genre.options.${POPULAR_ARTISTS_DEFAULT_GENRE}`),
+              })}
             </p>
           ) : null}
           {isFetching ? (
@@ -177,6 +237,31 @@ export const ArtistListingPage = () => {
             </p>
           ) : null}
         </header>
+
+        <div className="mb-10">
+          <ArtistListingFilters
+            initialValues={filters}
+            onSubmit={handleFiltersSubmit}
+            labels={{
+              title: t('filters.title'),
+              description: t('filters.description'),
+              artistName: {
+                label: t('filters.artistName.label'),
+                placeholder: t('filters.artistName.placeholder'),
+              },
+              genre: {
+                label: t('filters.genre.label'),
+                placeholder: t('filters.genre.placeholder'),
+              },
+              actions: {
+                apply: t('filters.actions.apply'),
+                clear: t('filters.actions.clear'),
+              },
+            }}
+            isSubmitting={isFetching}
+            genreOptions={genreOptions}
+          />
+        </div>
 
         {renderContent()}
       </div>
