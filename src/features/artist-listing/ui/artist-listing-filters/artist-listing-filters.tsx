@@ -120,7 +120,7 @@ export const ArtistListingFilters = ({
           >
             {labels.actions.clear}
           </Button>
-          <Button type="submit" variant="primary" disabled={isSubmitting}>
+          <Button type="submit" variant="inverted" disabled={isSubmitting}>
             {labels.actions.apply}
           </Button>
         </div>
