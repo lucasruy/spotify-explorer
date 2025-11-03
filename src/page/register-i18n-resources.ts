@@ -5,6 +5,7 @@ import { loginPageLocales } from './login';
 import { notFoundLocales } from './not-found';
 import { profilePageLocales } from './profile';
 import { artistListingPageLocales } from './artist-listing';
+import { artistDetailsPageLocales } from './artist-details';
 import { devShowcasePageLocales } from './dev-showcase';
 
 /**
@@ -17,5 +18,6 @@ export const registerPagesI18nResources = () => {
   registerI18nResources('profile-page', profilePageLocales);
   registerI18nResources('not-found-page', notFoundLocales);
   registerI18nResources('artist-listing-page', artistListingPageLocales);
+  registerI18nResources('artist-details-page', artistDetailsPageLocales);
   registerI18nResources('dev-showcase-page', devShowcasePageLocales);
 };

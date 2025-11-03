@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 
 import { usePopularArtists } from '@/features/artist-listing';
 import { useI18n } from '@/shared/i18n';
-import { Button, Card, Pagination } from '@/shared/ui';
+import { Button, Card, Pagination, SpotifyIcon } from '@/shared/ui';
 
 import {
   clampPage,
@@ -17,6 +17,7 @@ import {
   ArtistListingError,
   ArtistListingLoading,
 } from './artist-listing-page.feedback';
+import { ExternalLink } from 'lucide-react';
 
 const DEFAULT_PAGE = 1;
 
@@ -87,15 +88,23 @@ export const ArtistListingPage = () => {
                   )
                 }
                 actions={
-                  <Button asChild variant="secondary" size="sm">
-                    <Link
-                      href={artist.externalUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {t('card.spotifyCta')}
-                    </Link>
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button asChild size="sm" variant="primary">
+                      <Link href={`/artists/${artist.id}`}>
+                        {t('card.detailsCta')}
+                      </Link>
+                    </Button>
+                    <Button asChild variant="secondary" kind="icon" size="sm">
+                      <Link
+                        href={artist.externalUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={t('card.spotifyCta')}
+                      >
+                        <SpotifyIcon className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
                 }
               >
                 <dl className="text-muted-foreground space-y-2 text-sm">

@@ -23,6 +23,7 @@ export const artistListingPagePtBR = {
     popularity: 'Popularidade • {{value}}/100',
     mediaAlt: 'Foto do artista {{name}}',
     spotifyCta: 'Abrir no Spotify',
+    detailsCta: 'Ver detalhes',
     followers: {
       label: 'Seguidores',
     },
