@@ -1,0 +1,4 @@
+SPOTIFY_CLIENT_ID=
+SPOTIFY_CLIENT_SECRET=
+SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/api/auth/spotify/callback
+SPOTIFY_SCOPES=user-read-email user-read-private user-top-read user-library-read
