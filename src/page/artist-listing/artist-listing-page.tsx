@@ -17,7 +17,6 @@ import {
   ArtistListingError,
   ArtistListingLoading,
 } from './artist-listing-page.feedback';
-import { ExternalLink } from 'lucide-react';
 
 const DEFAULT_PAGE = 1;
 
@@ -89,7 +88,7 @@ export const ArtistListingPage = () => {
                 }
                 actions={
                   <div className="flex items-center gap-2">
-                    <Button asChild size="sm" variant="primary">
+                    <Button asChild size="sm" variant="inverted">
                       <Link href={`/artists/${artist.id}`}>
                         {t('card.detailsCta')}
                       </Link>
