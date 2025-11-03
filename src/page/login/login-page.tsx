@@ -104,10 +104,6 @@ export const LoginPage = ({ isLogged }: ProfilePageProps) => {
             </div>
 
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-end gap-3">
-                <ThemeToggle />
-                <LanguageSelector />
-              </div>
               <div className="border-border bg-card/40 rounded-3xl border p-6 shadow-lg backdrop-blur">
                 <div className="space-y-4">
                   <h2 className="text-foreground text-lg font-semibold">
