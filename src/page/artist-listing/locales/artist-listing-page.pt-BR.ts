@@ -15,6 +15,9 @@ export const artistListingPagePtBR = {
     empty: 'Nenhum artista encontrado para este filtro.',
     updating: 'Atualizando resultados...',
   },
+  pagination: {
+    summary: 'Página {{current}} de {{total}} • {{count}} artistas',
+  },
   card: {
     subtitleFallback: 'Artista popular',
     popularity: 'Popularidade • {{value}}/100',

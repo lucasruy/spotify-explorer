@@ -14,6 +14,9 @@ export const artistListingPageEnUS = {
     empty: 'No artists found for these filters.',
     updating: 'Refreshing results...',
   },
+  pagination: {
+    summary: 'Page {{current}} of {{total}} • {{count}} artists',
+  },
   card: {
     subtitleFallback: 'Popular artist',
     popularity: 'Popularity • {{value}}/100',
