@@ -22,6 +22,7 @@ export const artistListingPageEnUS = {
     popularity: 'Popularity • {{value}}/100',
     mediaAlt: '{{name}} artist photo',
     spotifyCta: 'Open on Spotify',
+    detailsCta: 'View details',
     followers: {
       label: 'Followers',
     },
