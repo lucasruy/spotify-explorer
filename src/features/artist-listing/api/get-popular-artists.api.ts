@@ -29,6 +29,10 @@ const buildQueryString = (params: PopularArtistsQuery) => {
     searchParams.set('market', params.market);
   }
 
+  if (params.artistName) {
+    searchParams.set('artist', params.artistName);
+  }
+
   return searchParams.toString();
 };
 
@@ -41,12 +45,16 @@ export const getPopularArtists = async (
     limit: params.limit ?? defaults.limit,
     genre: params.genre ?? defaults.genre,
     market: params.market ?? defaults.market,
+    artistName: params.artistName ?? defaults.artistName,
   });
   const endpoint = `/artists/popular${query ? `?${query}` : ''}`;
 
-  const response = await artistListingClient.get<PopularArtistsResponse>(endpoint, {
-    cache: 'no-store',
-  });
+  const response = await artistListingClient.get<PopularArtistsResponse>(
+    endpoint,
+    {
+      cache: 'no-store',
+    }
+  );
 
   return response.data;
 };

@@ -5,12 +5,16 @@ import {
   POPULAR_ARTISTS_DEFAULT_GENRE,
   POPULAR_ARTISTS_DEFAULT_LIMIT,
   POPULAR_ARTISTS_DEFAULT_MARKET,
+  isValidPopularArtistGenre,
   type PopularArtistsResponse,
 } from '@/features/artist-listing/model';
 import { getValidAccessToken } from '@/features/auth/model';
 
 const SPOTIFY_SEARCH_ENDPOINT = 'https://api.spotify.com/v1/search';
 const MAX_LIMIT = 50;
+
+const sanitizeSearchValue = (value: string | null) =>
+  value?.replace(/"/g, '').trim() ?? '';
 
 const parseNumberParam = (value: string | null, fallback: number) => {
   if (!value) {
@@ -34,23 +38,33 @@ export async function GET(request: Request) {
   }
 
   const url = new URL(request.url);
-  const pageParam = parseNumberParam(
-    url.searchParams.get('page'),
-    1
-  );
+  const pageParam = parseNumberParam(url.searchParams.get('page'), 1);
   const limitParam = parseNumberParam(
     url.searchParams.get('limit'),
     POPULAR_ARTISTS_DEFAULT_LIMIT
   );
   const limit = Math.min(limitParam, MAX_LIMIT);
   const page = Math.max(pageParam, 1);
-  const genre = url.searchParams.get('genre')?.trim() || POPULAR_ARTISTS_DEFAULT_GENRE;
-  const market = url.searchParams.get('market')?.trim() || POPULAR_ARTISTS_DEFAULT_MARKET;
+  const genreParam =
+    sanitizeSearchValue(url.searchParams.get('genre')) ||
+    POPULAR_ARTISTS_DEFAULT_GENRE;
+  const genre = isValidPopularArtistGenre(genreParam)
+    ? genreParam
+    : POPULAR_ARTISTS_DEFAULT_GENRE;
+  const market =
+    url.searchParams.get('market')?.trim() || POPULAR_ARTISTS_DEFAULT_MARKET;
+  const artistName = sanitizeSearchValue(url.searchParams.get('artist'));
   const offset = (page - 1) * limit;
+
+  const queryTerms = [`genre:"${genre}"`];
+
+  if (artistName) {
+    queryTerms.push(`artist:"${artistName}"`);
+  }
 
   const searchParams = new URLSearchParams({
     type: 'artist',
-    q: `genre:${genre}`,
+    q: queryTerms.join(' '),
     limit: String(limit),
     offset: String(offset),
   });
@@ -59,12 +73,15 @@ export async function GET(request: Request) {
     searchParams.set('market', market);
   }
 
-  const response = await fetch(`${SPOTIFY_SEARCH_ENDPOINT}?${searchParams.toString()}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    cache: 'no-store',
-  });
+  const response = await fetch(
+    `${SPOTIFY_SEARCH_ENDPOINT}?${searchParams.toString()}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      cache: 'no-store',
+    }
+  );
 
   if (!response.ok) {
     const details = await response.text();
@@ -95,6 +112,7 @@ export async function GET(request: Request) {
     filters: {
       genre,
       market,
+      artistName,
     },
   };
 

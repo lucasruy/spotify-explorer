@@ -4,11 +4,27 @@ export const POPULAR_ARTISTS_DEFAULT_LIMIT = 20;
 export const POPULAR_ARTISTS_DEFAULT_GENRE = 'pop';
 export const POPULAR_ARTISTS_DEFAULT_MARKET = 'US';
 
+export const POPULAR_ARTISTS_GENRES = [
+  'pop',
+  'rock',
+  'hip-hop',
+  'electronic',
+  'indie',
+  'metal',
+  'jazz',
+  'latin',
+  'country',
+  'k-pop',
+] as const;
+
+export type PopularArtistGenre = (typeof POPULAR_ARTISTS_GENRES)[number];
+
 export type PopularArtistsQuery = {
   page?: number;
   limit?: number;
-  genre?: string;
+  genre?: PopularArtistGenre;
   market?: string;
+  artistName?: string;
 };
 
 export type PopularArtistsResponse = {
@@ -20,7 +36,8 @@ export type PopularArtistsResponse = {
     totalItems: number;
   };
   filters: {
-    genre: string;
+    genre: PopularArtistGenre;
     market: string;
+    artistName: string;
   };
 };
