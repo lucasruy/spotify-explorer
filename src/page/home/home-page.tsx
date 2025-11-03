@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 import { useI18n } from '@/shared/i18n';
-import { Button, LanguageSelector, ThemeToggle } from '@/shared/ui';
+import { Button } from '@/shared/ui';
 
 import {
   getFeatureCards,
