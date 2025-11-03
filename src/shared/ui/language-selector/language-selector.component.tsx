@@ -9,6 +9,7 @@ const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   'en-US': 'English',
 };
 
+// TODO: Substituir select nativo pelo novo componente Select
 export const LanguageSelector = () => {
   const { changeLanguage, getCurrentLanguage } = useI18n();
   const currentLanguage = getCurrentLanguage();
