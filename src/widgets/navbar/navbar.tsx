@@ -13,25 +13,30 @@ type NavbarProps = {
 };
 
 export const Navbar = ({ user }: NavbarProps) => {
+  const enabledLinks = navbarLinks.filter(link => {
+    if (user !== null) return link;
+    if (link.public) return link;
+  });
+
   return (
-    <nav className="sticky top-0 border-b border-border/60 bg-background/80 backdrop-blur z-10">
+    <nav className="border-border/60 bg-background/80 sticky top-0 z-10 border-b backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl justify-between px-6">
         <div className="flex items-center gap-6">
           <Link
             href="/"
-            className="text-sm font-semibold text-foreground transition hover:text-primary"
+            className="text-foreground hover:text-primary text-sm font-semibold transition"
           >
             Spotify Explorer
           </Link>
         </div>
 
         <div className="flex items-center gap-6">
-          <ul className="ml-auto hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-            {navbarLinks.map(link => (
+          <ul className="text-muted-foreground ml-auto hidden items-center gap-6 text-sm md:flex">
+            {enabledLinks.map(link => (
               <li key={link.id}>
                 <Link
                   href={link.href}
-                  className="transition hover:text-primary"
+                  className="hover:text-primary transition"
                 >
                   {link.label}
                 </Link>
@@ -39,7 +44,7 @@ export const Navbar = ({ user }: NavbarProps) => {
             ))}
           </ul>
 
-          <div className="h-6 w-px bg-border/60" aria-hidden />
+          <div className="bg-border/60 h-6 w-px" aria-hidden />
 
           <div className="flex items-center">
             {!user ? (
@@ -51,7 +56,10 @@ export const Navbar = ({ user }: NavbarProps) => {
                 href="/profile"
                 className="group relative flex items-center"
               >
-                <div className="h-9 w-9 overflow-hidden rounded-full border border-button bg-card" title={user.displayName}>
+                <div
+                  className="border-button bg-card h-9 w-9 overflow-hidden rounded-full border"
+                  title={user.displayName}
+                >
                   {user.imageUrl ? (
                     <Image
                       src={user.imageUrl}
@@ -61,7 +69,7 @@ export const Navbar = ({ user }: NavbarProps) => {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <span className="flex h-full w-full items-center justify-center text-sm font-semibold text-muted-foreground">
+                    <span className="text-muted-foreground flex h-full w-full items-center justify-center text-sm font-semibold">
                       {user.displayName.charAt(0).toUpperCase()}
                     </span>
                   )}

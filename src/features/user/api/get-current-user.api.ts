@@ -1,21 +1,10 @@
-import { cookies } from 'next/headers';
-
-import {
-  SPOTIFY_COOKIE_ACCESS_TOKEN,
-  SPOTIFY_COOKIE_EXPIRES_AT,
-} from '@/features/auth/config';
-import { isAccessTokenExpired } from '@/features/auth/model';
-import {
-  mapUserProfile,
-  type UserProfile,
-} from '@/entities/user';
+import { getValidAccessToken } from '@/features/auth/model';
+import { mapUserProfile, type UserProfile } from '@/entities/user';
 
 export const getCurrentUser = async (): Promise<UserProfile | null> => {
-  const store = await cookies();
-  const accessToken = store.get(SPOTIFY_COOKIE_ACCESS_TOKEN)?.value;
-  const expiresAt = store.get(SPOTIFY_COOKIE_EXPIRES_AT)?.value;
+  const accessToken = await getValidAccessToken();
 
-  if (!accessToken || isAccessTokenExpired(expiresAt)) {
+  if (!accessToken) {
     return null;
   }
 
