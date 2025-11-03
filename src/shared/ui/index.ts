@@ -1,6 +1,7 @@
 export { Button } from './button';
 export { Card } from './card';
 export { Pagination } from './pagination';
+export { SpotifyIcon } from './spotify-icon';
 export { LanguageSelector } from './language-selector';
 export { Input } from './input';
 export { ThemeToggle, type ThemeOptions } from './theme-toggle';
