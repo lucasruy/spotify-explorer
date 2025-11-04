@@ -1,104 +1,105 @@
 export const homePageEnUS = {
-  tagline: 'Artist analytics for modern teams',
-  title: 'Launch artist intelligence for Spotify audiences',
+  tagline: 'Artist marketing powered by Spotify data',
+  title: 'Turn discovery moments into unforgettable launches',
   subtitle:
-    'Spotify Explorer turns Spotify catalogue signals into a polished discovery experience with filters, favorites and charts ready for production.',
+    'Spotify Explorer combines curated listings, smart search and rich artist profiles to accelerate campaigns, delight fans and impress partners.',
   hero: {
-    badge: 'Open beta',
+    badge: 'Ready for marketing squads',
     highlights: {
-      realtime: 'Realtime-ready caching with TanStack Query',
-      localized: 'Localized copy for English and Portuguese',
-      favorites: 'Favorites with validation and persistence',
+      realtime: 'Connect with Spotify in under a minute',
+      localized: 'Bilingual experience designed to expand into new territories',
+      favorites: 'Light and dark themes that follow your brand identity',
     },
     preview: {
-      title: 'Unified control center',
+      title: 'Interactive showcase',
       description:
-        'Monitor artist reach, spotlight top tracks and curate playlists from a single responsive dashboard.',
-      placeholder: 'Live preview coming with the Spotify Web API connection.',
+        'Blend highlights, metrics and CTAs inside a responsive dashboard crafted for commercial storytelling.',
+      placeholder:
+        'Sign in with Spotify to watch real data animate the experience.',
     },
   },
   cta: {
-    primary: 'Get started now',
-    secondary: 'See available resources.',
+    primary: 'Sign in with Spotify',
+    secondary: 'Explore the features',
   },
   sections: {
     features: {
-      title: 'Purpose-built for discovery teams',
+      title: 'Crafted for memorable artist launches',
       description:
-        'Deliver a premium Spotify browsing experience that respects performance, accessibility and growth targets.',
-      cta: 'See what launches next',
+        'Charm press, partners and superfans with a complete journey—from discovery to deep artist storytelling.',
+      cta: 'See what is coming next',
       items: {
         discovery: {
-          title: 'Discovery engine',
+          title: 'Premium artist collection',
           description:
-            'Beautiful artist cards with 20 results per page, seamless pagination and mobile-first layouts.',
-          cta: 'Preview discovery flows',
+            'Showcase talent with immersive cards, smooth pagination and fully responsive layouts ready for showcases.',
+          cta: 'Explore the collection',
         },
         filters: {
-          title: 'Precision filters',
+          title: 'Unified smart search',
           description:
-            'Debounced search by artist or album, contextual feedback and empty states designed for clarity.',
-          cta: 'Refine catalog instantly',
+            'Find artists, albums and tracks in one flow with contextual filters, guided suggestions and instant feedback.',
+          cta: 'Try the unified search',
         },
         details: {
-          title: 'Profile studio',
+          title: 'Context-rich profiles',
           description:
-            'Rich artist profiles with top tracks or albums, responsive tables and guided navigation patterns.',
-          cta: 'Dive into artist insights',
+            'Deliver popularity metrics, biographies and tailored calls-to-action in a layout designed for media moments.',
+          cta: 'Open an artist profile',
         },
         favorites: {
-          title: 'Favorites hub',
+          title: 'Personalized experience',
           description:
-            'Curate favorite tracks with React Hook Form, Zod validations and Local Storage persistence.',
-          cta: 'Capture favorite songs',
+            'Benefit from customizable themes, intuitive navigation and localized copy tailored to each market.',
+          cta: 'View the bilingual journey',
         },
       },
     },
     metrics: {
-      title: 'Ready for a fast launch',
+      title: 'Ready to present from day one',
       description:
-        'Every metric is grounded in the roadmap so you can move to production with confidence.',
+        'Key indicators that prove Spotify Explorer delivers value the moment you sign in.',
       items: {
         catalog: {
-          value: '20+',
-          label: 'artists per page out of the box',
+          value: '3',
+          label: 'core experiences live (discovery, search, profile)',
         },
         localization: {
           value: '2',
-          label: 'languages fully localized on launch',
+          label: 'languages with native copy at launch',
         },
         favorites: {
-          value: 'Unlimited',
-          label: 'favorites stored with client persistence',
+          value: 'Light & Dark',
+          label: 'themes ready to activate your brand',
         },
       },
     },
     upcoming: {
-      title: 'On the launchpad',
+      title: 'Roadmap built around activation',
       description:
-        'We are extending the platform to become the go-to workspace for Spotify artist operations.',
+        'Upcoming modules keep empowering marketing campaigns, reporting and partnerships around Spotify artists.',
       items: {
         analytics: {
-          title: 'Interactive analytics',
+          title: 'Engagement analytics',
           description:
-            'Charts that highlight popularity spikes, follower trends and release momentum.',
+            'Visual insights with top tracks, follower growth and campaign evolution ready for stakeholder decks.',
         },
         collaboration: {
-          title: 'Team collaboration',
+          title: 'Shared collections',
           description:
-            'Shared collections and review flows powered by Context API with useReducer.',
+            'Collaborative spaces where squads save highlights, align strategies and plan upcoming releases.',
         },
         integrations: {
-          title: 'Direct integrations',
+          title: 'Connected playlists',
           description:
-            'Native Spotify Web API support starting with the Web App Profile guide.',
+            'Import public playlists, spotlight followers and connect every action to ongoing campaigns.',
         },
       },
       apiCallout: {
-        title: 'Spotify integration is almost live',
+        title: 'Official Spotify integration',
         description:
-          'We are aligning with the official Web App Profile flow to deliver secure auth and rich artist metadata.',
-        linkLabel: 'Open Spotify Web API · Web App Profile',
+          'Fully compatible with Authorization Code + PKCE for secure authentication and trustworthy data straight from Spotify.',
+        linkLabel: 'Read the Spotify Web API guide',
       },
     },
   },
