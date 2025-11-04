@@ -6,6 +6,7 @@ import { useMemo, useRef, useState } from 'react';
 import {
   ArtistListingFilters,
   POPULAR_ARTISTS_DEFAULT_GENRE,
+  POPULAR_ARTISTS_DEFAULT_LIMIT,
   artistListingFiltersDefaultValues,
   getPopularArtistGenreOptions,
   sanitizeArtistListingFilters,
@@ -13,13 +14,10 @@ import {
   usePopularArtists,
 } from '@/features/artist-listing';
 import { useI18n } from '@/shared/i18n';
-import { Button, Card, Pagination, SpotifyIcon } from '@/shared/ui';
+import { Button, Card, SimplePagination, SpotifyIcon } from '@/shared/ui';
+import { calculatePaginationDisplay } from '@/shared/utils/pagination.helpers';
 
-import {
-  clampPage,
-  getFollowersLabel,
-  getGenresLabel,
-} from './artist-listing-page.helpers';
+import { getFollowersLabel, getGenresLabel } from './artist-listing-page.helpers';
 import {
   ArtistListingEmpty,
   ArtistListingError,
@@ -52,9 +50,19 @@ export const ArtistListingPage = () => {
     });
 
   const artists = data?.items ?? [];
-  const totalPages = data?.pagination.totalPages ?? 0;
-  const totalItems = data?.pagination.totalItems ?? 0;
-  const currentPage = data?.pagination.page ?? clampPage(page, totalPages);
+  const pagination = data?.pagination;
+  const totalItems = pagination?.totalItems ?? null;
+  const hasNextPage = pagination?.hasNext ?? false;
+  const hasPreviousPage = pagination?.hasPrevious ?? false;
+  const currentPage = pagination?.page ?? page;
+  const limit = pagination?.limit ?? POPULAR_ARTISTS_DEFAULT_LIMIT;
+  const { pageStart, pageEnd, totalDisplay } = calculatePaginationDisplay({
+    itemsLength: artists.length,
+    page: currentPage,
+    limit,
+    totalItems,
+    hasNext: hasNextPage,
+  });
   const genre = data?.filters.genre;
   const appliedArtistFilter = data?.filters.artistName;
   const hasCustomGenre = Boolean(
@@ -66,6 +74,10 @@ export const ArtistListingPage = () => {
   const activeGenreLabel = displayedGenreLabel;
 
   const handlePageChange = (nextPage: number) => {
+    if (nextPage <= 0 || nextPage === page) {
+      return;
+    }
+
     setPage(nextPage);
     headerRef?.current?.scrollIntoView({
       behavior: 'smooth',
@@ -173,25 +185,24 @@ export const ArtistListingPage = () => {
           })}
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-3">
-          {totalPages > 1 ? (
-            <Pagination
-              page={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          ) : null}
-
-          {totalItems ? (
-            <p className="text-muted-foreground text-xs">
-              {t('pagination.summary', {
-                current: currentPage,
-                total: Math.max(totalPages, 1),
-                count: totalItems,
-              })}
-            </p>
-          ) : null}
-        </div>
+        <SimplePagination
+          hasNext={hasNextPage}
+          hasPrevious={hasPreviousPage}
+          nextLabel={t('pagination.next')}
+          previousLabel={t('pagination.previous')}
+          currentLabel={t('pagination.current', { page: currentPage })}
+          onNext={() => {
+            handlePageChange(currentPage + 1);
+          }}
+          onPrevious={() => {
+            handlePageChange(currentPage - 1);
+          }}
+          summary={t('pagination.summary', {
+            start: pageStart,
+            end: pageEnd,
+            total: totalDisplay,
+          })}
+        />
       </>
     );
   };

@@ -10,11 +10,12 @@ import {
   useSearch,
 } from '@/features/search';
 import { useI18n } from '@/shared/i18n';
+import { SimplePagination } from '@/shared/ui';
+import { calculatePaginationDisplay } from '@/shared/utils/pagination.helpers';
 
 import {
   SearchFiltersSection,
   SearchHeroSection,
-  SearchPaginationSection,
   SearchResultsSection,
 } from './ui';
 import { createFilterOptions, getCategoryLabel } from './search-page.helpers';
@@ -44,15 +45,13 @@ export const SearchPage = () => {
   const hasPreviousPage = pagination?.hasPrevious ?? false;
   const currentPage = pagination?.page ?? page;
   const limit = pagination?.limit ?? SEARCH_DEFAULT_LIMIT;
-  const pageStart = items.length ? (currentPage - 1) * limit + 1 : 0;
-  const pageEnd = items.length ? pageStart + items.length - 1 : 0;
-  const visibleCount = items.length ? pageEnd : (currentPage - 1) * limit;
-  const totalDisplay =
-    totalItems !== null
-      ? totalItems
-      : hasNextPage
-        ? `${visibleCount}+`
-        : visibleCount;
+  const { pageStart, pageEnd, totalDisplay } = calculatePaginationDisplay({
+    itemsLength: items.length,
+    page: currentPage,
+    limit,
+    totalItems,
+    hasNext: hasNextPage,
+  });
 
   const activeCategoryLabel = getCategoryLabel(
     t,
@@ -119,7 +118,7 @@ export const SearchPage = () => {
           t={t}
         />
 
-        <SearchPaginationSection
+        <SimplePagination
           hasNext={hasNextPage}
           hasPrevious={hasPreviousPage}
           nextLabel={t('pagination.next')}
