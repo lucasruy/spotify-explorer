@@ -7,3 +7,5 @@ export { Input } from './input';
 export { ThemeToggle, type ThemeOptions } from './theme-toggle';
 export { Select } from './select';
 export type { SelectOption } from './select';
+export { SimplePagination } from './simple-pagination';
+export type { SimplePaginationProps } from './simple-pagination';
