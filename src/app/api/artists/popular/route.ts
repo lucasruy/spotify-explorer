@@ -9,6 +9,7 @@ import {
   type PopularArtistsResponse,
 } from '@/features/artist-listing/model';
 import { getValidAccessToken } from '@/features/auth/model';
+import { resolveOffsetPagination } from '@/shared/api';
 
 const SPOTIFY_SEARCH_ENDPOINT = 'https://api.spotify.com/v1/search';
 const MAX_LIMIT = 50;
@@ -92,23 +93,26 @@ export async function GET(request: Request) {
   }
 
   const payload = (await response.json()) as ApiArtistSearchResponse;
-  const apiArtists = payload.artists?.items ?? [];
+  const section = payload.artists ?? {};
+  const apiArtists = Array.isArray(section.items) ? section.items : [];
   const sortedArtists = [...apiArtists].sort(
     (a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)
   );
   const items = sortedArtists.map(mapArtist);
 
-  const totalItems = payload.artists?.total ?? items.length;
-  const totalPages = totalItems > 0 ? Math.ceil(totalItems / limit) : 0;
+  const pagination = resolveOffsetPagination({
+    limit: section.limit,
+    offset: section.offset,
+    total: section.total,
+    next: section.next,
+    previous: section.previous,
+    fallbackLimit: limit,
+    fallbackOffset: offset,
+  });
 
   const body: PopularArtistsResponse = {
     items,
-    pagination: {
-      page,
-      limit,
-      totalItems,
-      totalPages,
-    },
+    pagination,
     filters: {
       genre,
       market,

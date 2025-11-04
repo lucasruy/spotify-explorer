@@ -17,6 +17,7 @@ import {
   type SearchCategory,
   type SearchResponse,
 } from '@/features/search/model';
+import { resolveOffsetPagination } from '@/shared/api';
 
 const SPOTIFY_SEARCH_ENDPOINT = 'https://api.spotify.com/v1/search';
 
@@ -157,40 +158,19 @@ export async function GET(request: Request) {
     mapItem(item)
   );
 
-  const sectionTotal = Number(section.total);
-  const totalItems =
-    Number.isFinite(sectionTotal) && sectionTotal >= 0
-      ? Number.parseInt(String(sectionTotal), 10)
-      : null;
-
-  const sectionLimit = Number(section.limit);
-  const appliedLimit =
-    Number.isFinite(sectionLimit) && sectionLimit > 0
-      ? Number.parseInt(String(sectionLimit), 10)
-      : limit;
-
-  const sectionOffset = Number(section.offset);
-  const appliedOffset =
-    Number.isFinite(sectionOffset) && sectionOffset >= 0
-      ? Number.parseInt(String(sectionOffset), 10)
-      : offset;
-  const pageSize = appliedLimit > 0 ? appliedLimit : SEARCH_DEFAULT_LIMIT;
-  const safeOffset = Math.max(0, appliedOffset);
-  const currentPage = pageSize > 0 ? Math.floor(safeOffset / pageSize) + 1 : 1;
-
-  const hasNext = typeof section.next === 'string' && section.next.length > 0;
-  const hasPrevious =
-    typeof section.previous === 'string' && section.previous.length > 0;
+  const pagination = resolveOffsetPagination({
+    limit: section.limit,
+    offset: section.offset,
+    total: section.total,
+    next: section.next,
+    previous: section.previous,
+    fallbackLimit: limit,
+    fallbackOffset: offset,
+  });
 
   const body: SearchResponse = {
     items: mappedItems,
-    pagination: {
-      page: currentPage,
-      limit: pageSize,
-      totalItems,
-      hasNext,
-      hasPrevious,
-    },
+    pagination,
     filters: {
       category,
       query,

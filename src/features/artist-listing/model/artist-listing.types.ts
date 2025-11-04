@@ -32,8 +32,9 @@ export type PopularArtistsResponse = {
   pagination: {
     page: number;
     limit: number;
-    totalPages: number;
-    totalItems: number;
+    totalItems: number | null;
+    hasNext: boolean;
+    hasPrevious: boolean;
   };
   filters: {
     genre: PopularArtistGenre;

@@ -17,7 +17,10 @@ export const artistListingPagePtBR = {
     updating: 'Atualizando resultados...',
   },
   pagination: {
-    summary: 'Página {{current}} de {{total}} • {{count}} artistas',
+    previous: 'Anterior',
+    next: 'Próxima',
+    current: 'Página {{page}}',
+    summary: 'Exibindo {{start}} - {{end}} de {{total}} artistas',
   },
   card: {
     subtitleFallback: 'Artista popular',

@@ -16,7 +16,10 @@ export const artistListingPageEnUS = {
     updating: 'Refreshing results...',
   },
   pagination: {
-    summary: 'Page {{current}} of {{total}} • {{count}} artists',
+    previous: 'Previous',
+    next: 'Next',
+    current: 'Page {{page}}',
+    summary: 'Showing {{start}} - {{end}} of {{total}} artists',
   },
   card: {
     subtitleFallback: 'Popular artist',
