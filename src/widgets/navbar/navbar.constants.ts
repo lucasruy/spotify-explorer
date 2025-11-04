@@ -1,7 +1,7 @@
 export const navbarLinks = [
   {
     id: 'home',
-    label: 'Página inicial',
+    label: 'Início',
     href: '/',
     public: true,
   },

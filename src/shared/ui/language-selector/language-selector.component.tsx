@@ -3,13 +3,18 @@ import {
   type SupportedLanguage,
   SUPPORTED_LANGUAGES,
 } from '@/shared/i18n';
+import { Select, type SelectOption } from '@/shared/ui/select';
 
 const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   'pt-BR': 'Português',
   'en-US': 'English',
 };
 
-// TODO: Substituir select nativo pelo novo componente Select
+const LANGUAGE_OPTIONS: SelectOption[] = SUPPORTED_LANGUAGES.map(language => ({
+  value: language,
+  label: LANGUAGE_LABELS[language],
+}));
+
 export const LanguageSelector = () => {
   const { changeLanguage, getCurrentLanguage } = useI18n();
   const currentLanguage = getCurrentLanguage();
@@ -19,19 +24,12 @@ export const LanguageSelector = () => {
   };
 
   return (
-    <div>
-      <select
-        value={currentLanguage}
-        onChange={e =>
-          handleLanguageChange(e.target.value as SupportedLanguage)
-        }
-      >
-        {SUPPORTED_LANGUAGES.map(language => (
-          <option key={language} value={language}>
-            {LANGUAGE_LABELS[language]}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Select
+      value={currentLanguage}
+      onChange={event =>
+        handleLanguageChange(event.target.value as SupportedLanguage)
+      }
+      options={LANGUAGE_OPTIONS}
+    />
   );
 };

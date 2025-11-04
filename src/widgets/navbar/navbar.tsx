@@ -21,7 +21,7 @@ export const Navbar = ({ user }: NavbarProps) => {
   return (
     <nav className="border-border/60 bg-background/80 sticky top-0 z-10 border-b backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl justify-between px-6">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <Link
             href="/"
             className="text-foreground hover:text-primary text-sm font-semibold transition"
