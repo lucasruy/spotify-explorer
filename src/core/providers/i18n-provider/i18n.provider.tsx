@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { initializeI18n } from '@/shared/i18n';
 import { registerPagesI18nResources } from '@/page/register-i18n-resources';
+import { registerWidgetsI18nResources } from '@/widgets/register-i18n-resources';
 
 export const I18nProvider = ({ children }: React.PropsWithChildren) => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -14,7 +15,8 @@ export const I18nProvider = ({ children }: React.PropsWithChildren) => {
         await initializeI18n();
 
         registerPagesI18nResources();
-        
+        registerWidgetsI18nResources();
+
         setIsInitialized(true);
       } catch (error) {
         console.error('Error initializing i18n:', error);

@@ -1,21 +1,30 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import type { UserProfile } from "@/entities/user";
-import { Button, LanguageSelector, ThemeToggle } from "@/shared/ui";
+import type { UserProfile } from '@/entities/user';
+import { useI18n } from '@/shared/i18n';
+import { Button, LanguageSelector, ThemeToggle } from '@/shared/ui';
 
-import { navbarLinks } from "./navbar.constants";
+import { navbarLinks } from './navbar.constants';
 
 type NavbarProps = {
   user: UserProfile | null;
 };
 
 export const Navbar = ({ user }: NavbarProps) => {
+  const { t } = useI18n('navbar');
   const enabledLinks = navbarLinks.filter(link => {
-    if (user !== null) return link;
-    if (link.public) return link;
+    if (user !== null) {
+      return true;
+    }
+
+    if ('public' in link) {
+      return Boolean(link.public);
+    }
+
+    return false;
   });
 
   return (
@@ -38,7 +47,7 @@ export const Navbar = ({ user }: NavbarProps) => {
                   href={link.href}
                   className="hover:text-primary transition"
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                 </Link>
               </li>
             ))}
@@ -49,7 +58,7 @@ export const Navbar = ({ user }: NavbarProps) => {
           <div className="flex items-center">
             {!user ? (
               <Button asChild size="sm" className="px-4">
-                <Link href="/login">Login</Link>
+                <Link href="/login">{t('actions.login')}</Link>
               </Button>
             ) : (
               <Link
