@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Spotify Explorer é uma aplicação Next.js 16 focada em descoberta de artistas da Spotify Web API. O projeto usa arquitetura Feature-Sliced Design (FSD) para organizar páginas, features, entidades e widgets, expõe uma UI responsiva com Tailwind CSS 4 e já suporta internacionalização em português e inglês.
+Spotify Explorer é uma aplicação Next.js 16 focada em descoberta de artistas, álbuns e faixas da Spotify Web API. O projeto usa arquitetura Feature-Sliced Design (FSD) para organizar páginas, features, entidades e widgets, expõe uma UI responsiva com Tailwind CSS 4 e já suporta internacionalização em português e inglês.
 
 ## Stack Principal
 
@@ -41,6 +41,7 @@ Spotify Explorer é uma aplicação Next.js 16 focada em descoberta de artistas 
 - **Autenticação Spotify** via PKCE (`src/app/api/auth/spotify/login/route.ts`, `src/app/api/auth/spotify/callback/route.ts`, helpers em `src/features/auth`)
 - **Navbar dinâmica** com avatar, toggle de tema e seletor de idioma (`src/widgets/navbar`)
 - **Listagem de artistas populares** com filtros por nome/genre, paginação e feedback states (`src/page/artist-listing/artist-listing-page.tsx` + hook `usePopularArtists`)
+- **Busca unificada (preview)** para artistas, álbuns e faixas com filtros, paginação booleana e fallback de cards (`src/app/search/page.tsx`, `src/page/search`, `src/app/api/search/route.ts`)
 - **Detalhes de artista** com ações rápidas e métricas (`src/page/artist-details/artist-details-page.tsx`)
 - **Perfil do usuário autenticado** com dados normalizados (`src/page/profile/profile-page.tsx` + `src/features/user/api/get-current-user.api.ts`)
 - **Dev Showcase** para inspeção de componentes compartilhados (rota `src/app/dev/components/page.tsx`, disponível apenas em desenvolvimento)
@@ -49,11 +50,11 @@ Spotify Explorer é uma aplicação Next.js 16 focada em descoberta de artistas 
 
 ## Backlog Imediato
 
-- Página de listagem de artistas, albuns e músicas
+- Evoluções da busca unificada (refinar resposta, adicionar filtros adicionais e responsividade mobile-first completa)
 - Evolução da página de detalhes de artista:
   - Com top tracks e álbuns do artista
   - Tabela paginada de músicas/álbuns
-  - Gráficos com picos de popularidade do artista
+  - Gráficos com picos de popularidade do artista e estatísticas da busca
 - Formulário de favoritos com React Hook Form + persistência local
 - Melhorias na listagem (responsividade mobile-first mais rigorosa)
 - Evolução página de perfil:
@@ -130,6 +131,7 @@ Verifique [package.json](package.json) para detalhes adicionais.
 ## Integração com a Spotify Web API
 
 - **Listagem**: `src/app/api/artists/popular/route.ts` chama `https://api.spotify.com/v1/search`, aplica normalização e devolve `PopularArtistsResponse` consumido pelo hook `usePopularArtists`.
+- **Busca**: `src/app/api/search/route.ts` proxy para `https://api.spotify.com/v1/search`, mapeando artistas, álbuns e faixas para o domínio de UI (`src/features/search`).
 - **Detalhes**: `src/features/artist-details/api/get-artist-details.api.ts` acessa `https://api.spotify.com/v1/artists/{id}` e reusa o mapper `mapArtist` (`src/entities/artist`).
 - **Perfil**: `src/features/user/api/get-current-user.api.ts` consome `https://api.spotify.com/v1/me` e mapeia com `mapUserProfile` (`src/entities/user`).
 
