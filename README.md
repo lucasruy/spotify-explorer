@@ -156,23 +156,9 @@ Todos os mapeamentos são centralizados em `src/entities` para manter dados norm
 - `HttpClient` (`src/shared/api/http-client.ts`) padroniza chamadas `fetch`, headers e políticas de cache; a instância `artistListingClient` encapsula o acesso aos handlers internos.
 - A camada de features cuida da sanitização e validação com Zod (`artistListingFiltersSchema`) antes de disparar requisições.
 
-## Boas Práticas e Qualidade
-
-- Lint obrigatório via `pnpm lint`; use `pnpm lint:fix` para autofix.
-- Formatação garantida com `pnpm format`.
-- Testes automatizados ainda não foram implementados; consulte [ROADMAP.md](ROADMAP.md) para o planejamento.
-- A estrutura FSD e convenções adicionais estão documentadas em [SCOPE.md](SCOPE.md) e [AGENTS.md](AGENTS.md).
-
 ## Deploy na Vercel
 
 - A Vercel executa `pnpm install`, `pnpm build` e `next start` automaticamente.
 - Configure as variáveis de ambiente (`SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REDIRECT_URI`, `SPOTIFY_SCOPES`) na dashboard da Vercel.
 - O `redirect_uri` público deve apontar para `https://<dominio>/api/auth/spotify/callback` e ser registrado também na dashboard da Spotify.
 - Preview deployments são habilitados por branch; a rota `/dev/components` é protegida para não vazar em produção (`notFound()` quando `NODE_ENV === 'production'`).
-
-## Próximos Passos
-
-- Priorizar itens P0/P1 do roadmap (favoritos, gráficos, refinamentos de listagem).
-- Revisar o script `pnpm preview` ou removê-lo para evitar ruídos.
-- Implementar refresh token e expirations para melhorar UX autenticada.
-- Cobrir features críticas com testes (React Testing Library + Jest) seguindo o guia em `AGENTS.md`.
