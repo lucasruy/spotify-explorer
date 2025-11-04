@@ -1,18 +1,18 @@
 export const navbarLinks = [
   {
     id: 'home',
-    label: 'Início',
+    labelKey: 'links.home',
     href: '/',
     public: true,
   },
   {
     id: 'search',
-    label: 'Busca',
+    labelKey: 'links.search',
     href: '/search',
   },
   {
     id: 'artists',
-    label: 'Artistas',
+    labelKey: 'links.artists',
     href: '/artists',
   },
-];
+] as const;
