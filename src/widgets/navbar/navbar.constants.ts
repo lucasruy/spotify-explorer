@@ -6,6 +6,11 @@ export const navbarLinks = [
     public: true,
   },
   {
+    id: 'search',
+    label: 'Busca',
+    href: '/search',
+  },
+  {
     id: 'artists',
     label: 'Artistas',
     href: '/artists',

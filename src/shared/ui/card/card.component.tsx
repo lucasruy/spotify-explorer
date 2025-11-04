@@ -22,45 +22,43 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       <article
         ref={ref}
         className={cn(
-          'group relative flex flex-col overflow-hidden rounded-3xl border border-border/60 bg-card/50 p-6 shadow-sm transition hover:border-primary/60 hover:shadow-lg',
+          'group border-border/60 bg-card/50 hover:border-primary/60 relative flex h-full flex-col overflow-hidden rounded-3xl border p-6 shadow-sm transition hover:shadow-lg',
           className
         )}
         {...props}
       >
-        {media ? (
-          <div className="mb-4 flex items-center justify-center">
-            {media}
-          </div>
-        ) : null}
+        <div className="flex flex-1 flex-col">
+          {media ? (
+            <div className="mb-4 flex items-center justify-center">{media}</div>
+          ) : null}
 
-        <header className="space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            {subtitle ?? 'Artist'}
-          </p>
-          <h3 className="text-xl font-semibold text-foreground md:text-2xl">
-            {title}
-          </h3>
-        </header>
+          <header className="space-y-1">
+            <p className="text-muted-foreground text-xs font-semibold tracking-[0.3em] uppercase">
+              {subtitle ?? 'Artist'}
+            </p>
+            <h3 className="text-foreground text-xl font-semibold md:text-2xl">
+              {title}
+            </h3>
+          </header>
 
-        {description ? (
-          <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            {description}
-          </p>
-        ) : null}
+          {description ? (
+            <p className="text-muted-foreground mt-3 text-sm md:text-base">
+              {description}
+            </p>
+          ) : null}
 
-        {children ? (
-          <div className="mt-4 flex-1 text-sm text-muted-foreground">
-            {children}
-          </div>
-        ) : null}
+          {children ? (
+            <div className="text-muted-foreground mt-4 text-sm">{children}</div>
+          ) : null}
+        </div>
 
         {actions ? (
-          <footer className="mt-6 flex items-center gap-3">
+          <footer className="mt-auto flex items-center gap-3 pt-6">
             {actions}
           </footer>
         ) : null}
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-transparent via-primary/40 to-transparent opacity-0 transition group-hover:opacity-100" />
+        <div className="via-primary/40 pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
       </article>
     );
   }
