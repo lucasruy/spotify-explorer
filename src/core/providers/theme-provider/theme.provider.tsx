@@ -7,7 +7,7 @@ import { type ThemeOptions } from '@/shared/ui';
 import { type ThemeProviderProps } from './theme.types';
 import { ThemeProviderContext } from './theme.context';
 
-const isClient = typeof window === 'undefined';
+const isServer = typeof window === 'undefined';
 
 export function ThemeProvider({
   children,
@@ -16,7 +16,7 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<ThemeOptions>(() => {
-    if (isClient) {
+    if (isServer) {
       return defaultTheme;
     }
 
@@ -52,7 +52,7 @@ export function ThemeProvider({
     setTheme: (newTheme: ThemeOptions) => {
       setTheme(newTheme);
 
-      if (!isClient) {
+      if (!isServer) {
         try {
           localStorage.setItem(storageKey, newTheme);
         } catch (error) {
