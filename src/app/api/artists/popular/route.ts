@@ -85,9 +85,12 @@ export async function GET(request: Request) {
   );
 
   if (!response.ok) {
+    // 🛡️ Sentinel: Do not leak internal API error details to the client
     const details = await response.text();
+    console.error(`Failed to fetch artists: ${details}`);
+
     return NextResponse.json(
-      { error: `Failed to fetch artists: ${details}` },
+      { error: 'Failed to fetch artists. Please try again later.' },
       { status: response.status }
     );
   }

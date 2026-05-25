@@ -18,10 +18,13 @@ export async function GET() {
 
     return response;
   } catch (error) {
+    // 🛡️ Sentinel: Do not leak internal error details to the client
+    console.error('Spotify login error:', error instanceof Error ? error.message : error);
+
     return NextResponse.json(
       {
         message: 'Failed to start Spotify authentication',
-        details: error instanceof Error ? error.message : 'Unknown error',
+        details: 'An unexpected error occurred. Please try again later.',
       },
       { status: 500 }
     );

@@ -104,9 +104,12 @@ export async function GET(request: Request) {
   );
 
   if (!response.ok) {
+    // 🛡️ Sentinel: Do not leak internal API error details to the client
     const details = await response.text();
+    console.error(`Failed to perform search: ${details}`);
+
     return NextResponse.json(
-      { error: `Failed to perform search: ${details}` },
+      { error: 'Failed to perform search. Please try again later.' },
       { status: response.status }
     );
   }
